@@ -42,25 +42,66 @@
     // Button
     class Button extends PIXI.Container {
 
-        constructor() {
+        constructor(pos_x, pos_y, text = "Label", width = 100, height = 50) {
             super()
 
             let body = new PIXI.Graphics()
                 body.beginFill(0xCCCCCC)
-                body.drawRect(0, 0 , 100, 50)
+                body.drawRect(pos_x, pos_y, width, height)
                 body.endFill()
 
             this.addChild(body)
             this.body = body
             
+            // Label
+            let label = new PIXI.Text(text)
+                label.anchor.set(.5)
+                label.x = (body.width / 2) + pos_x
+                label.y = (body.height / 2) + pos_y
 
+            this.addChild(label)
+
+            this.interactive = true
         }
 
     }
 
-    let ourButton = new Button()
+    let ourButton = new Button(100, 100, "Click Me!", 200, 100)
+        ourButton.on("pointerover", () => { // hover over
+            ourButton.alpha = .5
+        })
+        ourButton.on("pointerout", () => { // hover out
+            ourButton.alpha = 1
+        })
+        ourButton.on("pointerdown", () => { // click down
+            ourButton.body.tint = 0xFF0000
+        })
+        ourButton.on("pointerupoutside", () => { // let go outside of button
+            ourButton.body.tint = 0xFFFFFF
+        })
 
     app.stage.addChild(ourButton)
+
+    let ourButton2 = new Button(350, 100, "Drag Me!", 200, 100)
+        let buttonDragged = false
+
+        ourButton2.on("pointerdown", () => {
+            buttonDragged = true
+        })
+        ourButton2.on("pointerup", () => {
+            buttonDragged = false
+        })
+        ourButton2.on("pointermove", (event) => {
+            console.log(event)
+            if (buttonDragged == false) return
+
+            ourButton2.x = event.client.x - ourButton2.body.width / 2
+            ourButton2.y = event.client.y - ourButton2.body.height / 2
+
+            console.log(ourButton2, event)
+        })
+
+    app.stage.addChild(ourButton2)
 
 </script>
     
