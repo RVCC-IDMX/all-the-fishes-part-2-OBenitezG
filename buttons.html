@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All the Fishes</title>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+</head>
+<body>
+
+<script type="module">
+
+    // The App
+    const app = new PIXI.Application();
+    await app.init({
+        width:640,
+        height:480,
+        backgroundColor: 0x000000
+    });
+
+    // Add view to the body
+    document.body.appendChild(app.canvas);
+
+    // Expose the app to the document
+    window.app = app;
+
+    // Button
+    let button = new PIXI.Graphics()
+        button.beginFill(0xCCCCCC)
+        button.drawRect(0, 0 , 100, 50)
+        button.endFill()
+
+        button.interactive = true
+
+    app.stage.addChild(button)
+
+</script>
+    
+</body>
+</html>
