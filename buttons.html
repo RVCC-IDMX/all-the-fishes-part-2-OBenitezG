@@ -25,14 +25,42 @@
     window.app = app;
 
     // Button
-    let button = new PIXI.Graphics()
+    /* let button = new PIXI.Graphics()
         button.beginFill(0xCCCCCC)
         button.drawRect(0, 0 , 100, 50)
         button.endFill()
 
         button.interactive = true
 
-    app.stage.addChild(button)
+        button.on("pointerover", (event) => {
+            console.log("Pointer")
+            console.log(event.client.x, event.client.y)
+        })
+
+    app.stage.addChild(button) */
+
+    // Button
+    class Button extends PIXI.Container {
+
+        constructor() {
+            super()
+
+            let body = new PIXI.Graphics()
+                body.beginFill(0xCCCCCC)
+                body.drawRect(0, 0 , 100, 50)
+                body.endFill()
+
+            this.addChild(body)
+            this.body = body
+            
+
+        }
+
+    }
+
+    let ourButton = new Button()
+
+    app.stage.addChild(ourButton)
 
 </script>
     
