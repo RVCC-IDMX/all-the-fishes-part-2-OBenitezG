@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All the Fishes</title>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+</head>
+<body>
+
+<script type="module"> 
+
+    const app = new PIXI.Application();
+    await app.init({
+        width:640,
+        height:480,
+        backgroundColor: 0x000000
+    })
+
+    document.body.appendChild(app.canvas)
+
+    window.app = app
+
+    class ImageButton extends PIXI.Container {
+
+        constructor(image) {
+            super()
+
+            let fish_image = PIXI.Sprite.from(image)
+
+            this.addChild(fish_image)
+
+            this.interactive = true
+        }
+    }
+
+    await PIXI.Assets.load('img/GoldFishSticker.png');
+
+    var fish_button = new ImageButton('img/GoldFishSticker.png')
+    let buttonDragged = false;
+        fish_button.on('pointerdown', () => { buttonDragged = true; });
+        fish_button.on('pointerup', () => { buttonDragged = false; })
+        fish_button.on('pointermove', (event) => {
+            if (buttonDragged == false) return
+            fish_button.x = event.global.x - fish_button.width / 2
+            fish_button.y = event.global.y - fish_button.height / 2
+        })
+
+    app.stage.addChild(fish_button)
+
+
+</script>
+
+</body>
+</html>

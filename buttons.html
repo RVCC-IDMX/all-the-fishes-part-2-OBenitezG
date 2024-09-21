@@ -10,7 +10,7 @@
 
 <script type="module">
 
-    // The App
+    //The App
     const app = new PIXI.Application();
     await app.init({
         width:640,
@@ -18,90 +18,100 @@
         backgroundColor: 0x000000
     });
 
-    // Add view to the body
+    //Add view to the body
     document.body.appendChild(app.canvas);
 
-    // Expose the app to the document
+    //Expose the app to the document
     window.app = app;
 
-    // Button
-    /* let button = new PIXI.Graphics()
-        button.beginFill(0xCCCCCC)
-        button.drawRect(0, 0 , 100, 50)
-        button.endFill()
+    //Our very first button
+    /*
+    let button = new PIXI.Graphics();
+        button.beginFill(0xCCCCCC);
+        button.drawRect(200,200,100,50);
+        button.endFill();
 
-        button.interactive = true
+        button.interactive = true;
 
-        button.on("pointerover", (event) => {
-            console.log("Pointer")
-            console.log(event.client.x, event.client.y)
-        })
+        button.on("pointermove", (event) => {
+            console.log("Pointer", event.client.x, event.client.y);
+        });
 
-    app.stage.addChild(button) */
+    app.stage.addChild(button);
+    */
 
-    // Button
+    //Make a button right
     class Button extends PIXI.Container {
 
-        constructor(pos_x, pos_y, text = "Label", width = 100, height = 50) {
-            super()
+        //Constructor
+        constructor(text,w,h) {
+            super();
 
-            let body = new PIXI.Graphics()
-                body.beginFill(0xCCCCCC)
-                body.drawRect(pos_x, pos_y, width, height)
-                body.endFill()
+            //Set defaults
+            if (text == undefined) text = "Button";
+            if (w == undefined) w = 100;
+            if (h == undefined) h = 50;
 
-            this.addChild(body)
-            this.body = body
+            //Button body
+            let body = new PIXI.Graphics();
+            body.beginFill(0xCCCCCC);
+            body.drawRect(0,0,
+                          w,h);
+            body.endFill();
+
+            this.addChild(body);
+            this.body = body;
+
+            //Button label
+            let label = new PIXI.Text(text);
+                label.anchor.set(.5);
+                label.x = body.width/2;
+                label.y = body.height/2;
             
-            // Label
-            let label = new PIXI.Text(text)
-                label.anchor.set(.5)
-                label.x = (body.width / 2) + pos_x
-                label.y = (body.height / 2) + pos_y
+            this.addChild(label);
 
-            this.addChild(label)
+            //Make it interactive
+            this.interactive = true;
 
-            this.interactive = true
         }
 
-    }
+    } //END Button
 
-    let ourButton = new Button(100, 100, "Click Me!", 200, 100)
-        ourButton.on("pointerover", () => { // hover over
-            ourButton.alpha = .5
-        })
-        ourButton.on("pointerout", () => { // hover out
-            ourButton.alpha = 1
-        })
-        ourButton.on("pointerdown", () => { // click down
-            ourButton.body.tint = 0xFF0000
-        })
-        ourButton.on("pointerupoutside", () => { // let go outside of button
-            ourButton.body.tint = 0xFFFFFF
-        })
+    let ourButton = new Button("Label",100,50);
+        ourButton.x = 100;
+        ourButton.y = 50;
+        ourButton.on('pointerover', () => { //over
+            ourButton.alpha = .5;
+        });
+        ourButton.on('pointerout', () => { //out
+            ourButton.alpha = 1;
+        });
+        ourButton.on('pointerdown', () => { //down
+            ourButton.body.tint = 0xFF0000;
+        });
+        ourButton.on('pointerup', () => { //up
+            ourButton.body.tint = 0xFFFFFF;
+        });
+        ourButton.on('pointerupoutside', () => { //upoutside
+            ourButton.body.tint = 0xFFFFFF;
+        });
+    app.stage.addChild(ourButton);
 
-    app.stage.addChild(ourButton)
+    //Make this button draggable
+    let ourButton2 = new Button("Other Button",200);
+        ourButton2.x = 300;
+        ourButton2.y = 50;
+    app.stage.addChild(ourButton2);
 
-    let ourButton2 = new Button(350, 100, "Drag Me!", 200, 100)
-        let buttonDragged = false
-
-        ourButton2.on("pointerdown", () => {
-            buttonDragged = true
-        })
-        ourButton2.on("pointerup", () => {
-            buttonDragged = false
-        })
-        ourButton2.on("pointermove", (event) => {
-            console.log(event)
-            if (buttonDragged == false) return
-
-            ourButton2.x = event.client.x - ourButton2.body.width / 2
-            ourButton2.y = event.client.y - ourButton2.body.height / 2
-
-            console.log(ourButton2, event)
-        })
-
-    app.stage.addChild(ourButton2)
+    let buttonDragged = false;
+        ourButton2.on('pointerdown', () => { buttonDragged = true; });
+        ourButton2.on('pointerup', () => { buttonDragged = false; });
+        ourButton2.on('pointermove', (event) => {
+            if (buttonDragged == false) return;
+            ourButton2.x = event.global.x - ourButton.body.width/2;
+            ourButton2.y = event.global.y - ourButton.body.height/2;
+            console.log(event);
+        });
 
 </script>
     
