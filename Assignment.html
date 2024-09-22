@@ -10,6 +10,10 @@
 
 <script type="module"> 
 
+    const color_array = [0xa3ffb4, 0x00ffff, 0x4974a5,
+                         0xe1c0b6, 0x588163, 0x7a49a5]
+    
+    
     const app = new PIXI.Application();
     await app.init({
         width:640,
@@ -27,8 +31,32 @@
             super()
 
             let fish_image = PIXI.Sprite.from(image)
+            this.fish_image = fish_image
 
             this.addChild(fish_image)
+
+            this.interactive = true
+        }
+    }
+
+    class RandomColorButton extends PIXI.Container {
+
+        constructor(image) {
+            super()
+
+            let body = new PIXI.Graphics()
+            body.beginFill(0xCCCCCC)
+            body.drawRect(0, 0, 150, 50)
+            body.endFill()
+
+            this.addChild(body)
+
+            let label = new PIXI.Text("Color")
+                label.anchor.set(.5)
+                label.x = body.width/2
+                label.y = body.height/2
+            
+            this.addChild(label)
 
             this.interactive = true
         }
@@ -47,6 +75,17 @@
         })
 
     app.stage.addChild(fish_button)
+
+    var random_color = new RandomColorButton()
+        random_color.x = 300
+        random_color.on("pointerdown", () => {
+            let random_choice = Math.round( Math.random() * color_array.length )
+
+            fish_button.fish_image.tint = color_array[random_choice]
+        })
+
+
+    app.stage.addChild(random_color)
 
 
 </script>
