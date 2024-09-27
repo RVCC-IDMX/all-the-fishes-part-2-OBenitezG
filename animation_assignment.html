@@ -35,6 +35,7 @@
         fish1.y = 200;
         fish1.anchor.x = .5;
         fish1.anchor.y = .5;
+        console.log(fish1.tint)
 
     //Add it to the stage
     app.stage.addChild(fish1);
@@ -51,7 +52,8 @@
                 y : obj.y,
                 scale_x : obj.scale.x,
                 scale_y : obj.scale.y,
-                rotation : obj.rotation
+                rotation : obj.rotation,
+                tint : obj.tint
             }
 
             if (end.duration == undefined) end.duration = 0
@@ -59,6 +61,7 @@
             if (end.scale_x == undefined) end.scale_x = obj.scale.x
             if (end.scale_y == undefined) end.scale_y = obj.scale.y
             if (end.rotation == undefined) end.rotation = obj.rotation
+            if (end.tint == undefined) end.tint = obj.tint
 
             var startTime = Date.now()
 
@@ -74,6 +77,7 @@
                     obj.scale.x = end.scale_x
                     obj.scale.y = end.scale_y
                     obj.rotation = end.rotation
+                    obj.tint = end.tint
                     
                     resolve()
                     return
@@ -91,6 +95,9 @@
                 obj.scale.y = lerp(start.scale_y, end.scale_y, delta, ease)
 
                 obj.rotation = lerp(start.rotation, end.rotation, delta, ease)
+
+                obj.tint = end.tint
+                //obj.tint = Math.round(lerp(start.tint, end.tint, delta, ease))
                 
 
                 obj.animationID = requestAnimationFrame(loop)
@@ -136,6 +143,7 @@
             x : 50,
             y : 300,
             rotation : 0,
+            tint : Math.random() * 0xffffff,
             easing : Animate.easeIn,
             duration : 3000
         })
